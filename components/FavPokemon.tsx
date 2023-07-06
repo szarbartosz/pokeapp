@@ -11,7 +11,7 @@ const FavPokemon: React.FC<Props> = ({navigation}) => {
       <Text>Favourite Pokemon Screen</Text>
       <Button
         title="Go to Pokemon List"
-        onPress={() => navigation.navigate('List')}
+        onPress={() => navigation.navigate('Pokemons')}
       />
     </View>
   );

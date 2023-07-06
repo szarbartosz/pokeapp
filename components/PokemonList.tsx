@@ -1,23 +1,12 @@
 import * as React from 'react';
-import {
-  SafeAreaView,
-  FlatList,
-  StyleSheet,
-  StatusBar,
-  Button,
-} from 'react-native';
-import axios from 'axios';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {BottomTabParamList} from '../App';
-import Pokemon from './Pokemon';
 import {useEffect} from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
+import axios from 'axios';
+import {Pokemon, StackParamList} from '../App';
+import PokemonListElement from './PokemonListElement';
 
-type Props = BottomTabScreenProps<BottomTabParamList, 'List'>;
-
-type Pokemon = {
-  name: string;
-  url: string;
-};
+type Props = NativeStackScreenProps<StackParamList, 'Overview'>;
 
 const PokemonList: React.FC<Props> = ({navigation}) => {
   const limit = React.useRef(20);
@@ -32,7 +21,7 @@ const PokemonList: React.FC<Props> = ({navigation}) => {
           axios
             .get(pokemon.url)
             .then(response => {
-              pokemon.url = response.data.sprites.front_default;
+              pokemon.photoUrl = response.data.sprites.front_default;
             })
             .catch(error => {
               console.log(error);
@@ -54,7 +43,7 @@ const PokemonList: React.FC<Props> = ({navigation}) => {
           axios
             .get(pokemon.url)
             .then(response => {
-              pokemon.url = response.data.sprites.front_default;
+              pokemon.photoUrl = response.data.sprites.front_default;
             })
             .catch(error => {
               console.log(error);
@@ -77,16 +66,18 @@ const PokemonList: React.FC<Props> = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={pokemons}
-        renderItem={({item}) => <Pokemon name={item.name} url={item.url} />}
+        renderItem={({item}) => (
+          <PokemonListElement
+            name={item.name}
+            photoUrl={item.photoUrl}
+            onPress={() => navigation.navigate('Details', {pokemon: item})}
+          />
+        )}
         keyExtractor={item => item.name}
         onEndReachedThreshold={0.01}
         onEndReached={() =>
           fetchMorePokemons(limit.current, offset + limit.current)
         }
-      />
-      <Button
-        title="Go to Your Favourite Pokemon"
-        onPress={() => navigation.navigate('Favourite')}
       />
     </SafeAreaView>
   );
@@ -95,7 +86,6 @@ const PokemonList: React.FC<Props> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
   },
 });
 

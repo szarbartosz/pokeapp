@@ -1,19 +1,22 @@
 import * as React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 
 type Props = {
   name: string;
-  url: string;
+  photoUrl: string;
+  onPress: () => void;
 };
 
-const Pokemon: React.FC<Props> = ({name, url}) => {
+const PokemonListElement: React.FC<Props> = ({name, photoUrl, onPress}) => {
   return (
-    <View style={styles.item}>
-      <Image style={styles.logo} source={{uri: url}} />
-      <View>
-        <Text style={styles.title}>{name}</Text>
+    <TouchableHighlight onPress={onPress}>
+      <View style={styles.item}>
+        <Image style={styles.logo} source={{uri: photoUrl}} />
+        <View>
+          <Text style={styles.title}>{name}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableHighlight>
   );
 };
 
@@ -42,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Pokemon;
+export default PokemonListElement;
