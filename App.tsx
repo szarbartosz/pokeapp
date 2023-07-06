@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import FavPokemon from './components/FavPokemon';
+import FavouritePokemon from './components/FavouritePokemon';
 import PokemonList from './components/PokemonList';
 import PokemonDetails from './components/PokemonDetails';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -37,7 +37,7 @@ const PokemonStackScreen = () => (
 
 const MyTabs = () => (
   <Tab.Navigator>
-    <Tab.Screen name="Favourite" component={FavPokemon} />
+    <Tab.Screen name="Favourite" component={FavouritePokemon} />
     <Tab.Screen name="Pokemons" component={PokemonStackScreen} />
   </Tab.Navigator>
 );

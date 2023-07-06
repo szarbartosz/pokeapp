@@ -4,6 +4,7 @@ import {Button, Image, StyleSheet, Text, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import axios from 'axios';
 import {Pokemon, StackParamList} from '../App';
+import {getData, storeData} from '../services/asyncStorage';
 
 type Props = NativeStackScreenProps<StackParamList, 'Details'>;
 
@@ -22,9 +23,10 @@ type EffectEntry = {
   };
 };
 
-const PokemonDetails: React.FC<Props> = ({route}) => {
+const PokemonDetails: React.FC<Props> = ({route, navigation}) => {
   const {pokemon} = route.params;
   const [abilities, setAbilities] = useState<Ability[]>([]);
+  const [isFavourite, setIsFavourite] = useState<boolean>(false);
 
   const fetchPokemonDetails = (pokemon: Pokemon) => {
     axios
@@ -56,7 +58,18 @@ const PokemonDetails: React.FC<Props> = ({route}) => {
 
   useEffect(() => {
     fetchPokemonDetails(pokemon);
-  }, [pokemon]);
+
+    const getFavouritePokemon = async () => {
+      const favouritePokemon = await getData('favourite');
+      setIsFavourite(favouritePokemon?.name === pokemon.name);
+    };
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      getFavouritePokemon();
+    });
+
+    return unsubscribe;
+  }, [pokemon, navigation]);
 
   return (
     <View style={styles.container}>
@@ -71,9 +84,23 @@ const PokemonDetails: React.FC<Props> = ({route}) => {
             {ability.ability.name}
           </Text>
         ))}
-      <View style={styles.buttonContainer}>
-        <Button color="#FFFFFF" title="mark as favourite" />
-      </View>
+      {isFavourite ? (
+        <View style={styles.infoContainer}>
+          <Text style={styles.title}>That's Your favourite pokemon!</Text>
+        </View>
+      ) : (
+        <View style={styles.buttonContainer}>
+          <Button
+            color="#FFFFFF"
+            title="mark as favourite"
+            onPress={() => {
+              storeData('favourite', pokemon);
+              setIsFavourite(true);
+              navigation.goBack();
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -109,6 +136,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#CC0000',
     borderRadius: 4,
     padding: 8,
+  },
+  infoContainer: {
+    marginTop: 120,
   },
 });
 
