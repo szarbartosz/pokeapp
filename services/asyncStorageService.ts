@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Pokemon} from '../App';
 
+export const FAVOURITE_POKEMON_KEY = 'favouritePokemon';
+
 export const storeData = async (key: string, value: Pokemon) => {
   try {
     const jsonValue = JSON.stringify(value);

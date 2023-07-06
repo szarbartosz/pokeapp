@@ -2,13 +2,15 @@ import * as React from 'react';
 import {useState, useEffect} from 'react';
 import {Button, Image, StyleSheet, Text, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import axios from 'axios';
-import {Pokemon, StackParamList} from '../App';
-import {getData, storeData} from '../services/asyncStorage';
+import {StackParamList} from '../App';
+import {
+  FAVOURITE_POKEMON_KEY,
+  getData,
+  storeData,
+} from '../services/asyncStorageService';
+import {fetchPokemonDetails} from '../services/pokemonService';
 
-type Props = NativeStackScreenProps<StackParamList, 'Details'>;
-
-type Ability = {
+export type Ability = {
   ability: {
     name: string;
     url: string;
@@ -16,51 +18,25 @@ type Ability = {
   details: string;
 };
 
-type EffectEntry = {
+export type EffectEntry = {
   effect: string;
   language: {
     name: string;
   };
 };
 
+type Props = NativeStackScreenProps<StackParamList, 'Details'>;
+
 const PokemonDetails: React.FC<Props> = ({route, navigation}) => {
   const {pokemon} = route.params;
   const [abilities, setAbilities] = useState<Ability[]>([]);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
 
-  const fetchPokemonDetails = (pokemon: Pokemon) => {
-    axios
-      .get(pokemon.url)
-      .then(response => {
-        response.data.abilities.map((ability: Ability) => {
-          axios
-            .get(ability.ability.url)
-            .then(response => {
-              ability.details = response.data.effect_entries.find(
-                (effectEntry: EffectEntry) =>
-                  effectEntry.language.name === 'en',
-              ).effect;
-
-              console.log('INNER FETCH: ', ability);
-            })
-            .catch(error => {
-              console.log(error);
-            });
-        });
-
-        console.log('OUTER FETCH: ', response.data.abilities);
-        setAbilities(response.data.abilities);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
-    fetchPokemonDetails(pokemon);
+    fetchPokemonDetails(pokemon, setAbilities);
 
     const getFavouritePokemon = async () => {
-      const favouritePokemon = await getData('favourite');
+      const favouritePokemon = await getData(FAVOURITE_POKEMON_KEY);
       setIsFavourite(favouritePokemon?.name === pokemon.name);
     };
 
@@ -94,7 +70,7 @@ const PokemonDetails: React.FC<Props> = ({route, navigation}) => {
             color="#FFFFFF"
             title="mark as favourite"
             onPress={() => {
-              storeData('favourite', pokemon);
+              storeData(FAVOURITE_POKEMON_KEY, pokemon);
               setIsFavourite(true);
               navigation.goBack();
             }}

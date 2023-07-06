@@ -3,7 +3,11 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {Text, StyleSheet, View, Image, Button} from 'react-native';
 import {BottomTabParamList, Pokemon} from '../App';
 import {useEffect, useState} from 'react';
-import {getData, removeData} from '../services/asyncStorage';
+import {
+  FAVOURITE_POKEMON_KEY,
+  getData,
+  removeData,
+} from '../services/asyncStorageService';
 
 type Props = BottomTabScreenProps<BottomTabParamList, 'Favourite'>;
 
@@ -13,7 +17,7 @@ const FavouritePokemon: React.FC<Props> = ({navigation}) => {
 
   useEffect(() => {
     const getFavouritePokemon = async () => {
-      const favouritePokemon = await getData('favourite');
+      const favouritePokemon = await getData(FAVOURITE_POKEMON_KEY);
       setPokemon(favouritePokemon);
       setPokemonPresent(favouritePokemon !== null);
     };
@@ -34,7 +38,7 @@ const FavouritePokemon: React.FC<Props> = ({navigation}) => {
           color="#FFFFFF"
           title="Not my favourite pokemon anymore!"
           onPress={() => {
-            removeData('favourite');
+            removeData(FAVOURITE_POKEMON_KEY);
             setPokemonPresent(false);
           }}
         />
