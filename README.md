@@ -18,21 +18,21 @@
 ### Favourite pokemon tab
 
 <div style="display: flex;">
-  <img src="./assets//Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.37.51.png" height="600px" style="padding: 5px;">
-  <img src="./assets//Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.38.34.png" height="600px" style="padding: 5px;">
+  <img src="./assets//Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.37.51.png" height="500px" style="padding: 5px;">
+  <img src="./assets//Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.38.34.png" height="500px" style="padding: 5px;">
 <div>
 
 ### Pokemon list tab
 
 <div style="display: flex;">
-  <img src="./assets/Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.38.39.png" height="600px" style="padding: 5px;">
-  <img src="./assets/Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.38.48.png" height="600px" style="padding: 5px;">
-  <img src="./assets/Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.38.51.png" height="600px" style="padding: 5px;">
+  <img src="./assets/Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.38.39.png" height="500px" style="padding: 5px;">
+  <img src="./assets/Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.38.48.png" height="500px" style="padding: 5px;">
+  <img src="./assets/Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.38.51.png" height="500px" style="padding: 5px;">
 <div>
 
 ### Map tab
 
 <div style="display: flex;">
-  <img src="./assets/Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.47.44.png" height="600px" style="padding: 5px;">
-  <img src="./assets/Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.40.37.png" height="600px" style="padding: 5px;">
+  <img src="./assets/Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.47.44.png" height="500px" style="padding: 5px;">
+  <img src="./assets/Simulator Screenshot - iPhone 14 Pro - 2023-07-07 at 16.40.37.png" height="500px" style="padding: 5px;">
 <div>
