@@ -5,6 +5,7 @@ import FavouritePokemon from './components/FavouritePokemon';
 import PokemonList from './components/PokemonList';
 import PokemonDetails from './components/PokemonDetails';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import MapComponent from './components/Map';
 
 export type Pokemon = {
   name: string;
@@ -15,6 +16,7 @@ export type Pokemon = {
 export type BottomTabParamList = {
   Favourite: undefined;
   Pokemons: undefined;
+  Map: undefined;
 };
 
 export type StackParamList = {
@@ -28,24 +30,25 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
-const PokemonStackScreen = () => (
+const PokemonStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="Overview" component={PokemonList} />
     <Stack.Screen name="Details" component={PokemonDetails} />
   </Stack.Navigator>
 );
 
-const MyTabs = () => (
+const PokemonTabs = () => (
   <Tab.Navigator>
     <Tab.Screen name="Favourite" component={FavouritePokemon} />
-    <Tab.Screen name="Pokemons" component={PokemonStackScreen} />
+    <Tab.Screen name="Pokemons" component={PokemonStack} />
+    <Tab.Screen name="Map" component={MapComponent} />
   </Tab.Navigator>
 );
 
 const App = () => {
   return (
     <NavigationContainer>
-      <MyTabs />
+      <PokemonTabs />
     </NavigationContainer>
   );
 };

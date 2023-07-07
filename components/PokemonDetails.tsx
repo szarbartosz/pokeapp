@@ -57,7 +57,7 @@ const PokemonDetails: React.FC<Props> = ({route, navigation}) => {
           <Text
             style={styles.listElement}
             key={pokemon.name + ability.ability.name}>
-            {ability.ability.name}
+            {ability.ability.name}: {ability.details}
           </Text>
         ))}
       {isFavourite ? (

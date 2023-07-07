@@ -64,25 +64,55 @@ export const fetchPokemonDetails = (
   axios
     .get(pokemon.url)
     .then(response => {
-      response.data.abilities.map((ability: Ability) => {
-        axios
+      const fetchPromise = response.data.abilities.map((ability: Ability) => {
+        return axios
           .get(ability.ability.url)
           .then(response => {
             ability.details = response.data.effect_entries.find(
               (effectEntry: EffectEntry) => effectEntry.language.name === 'en',
             ).effect;
-
-            console.log('INNER FETCH: ', ability);
           })
           .catch(error => {
             console.log(error);
           });
       });
 
-      console.log('OUTER FETCH: ', response.data.abilities);
-      setAbilities(response.data.abilities);
+      Promise.all(fetchPromise)
+        .then(() => {
+          setAbilities(response.data.abilities);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     })
     .catch(error => {
       console.log(error);
     });
 };
+
+export const fetchRandomPokemon = (
+  setSpottedPokemon: Dispatch<SetStateAction<Pokemon[]>>,
+) =>
+  axios
+    .get(
+      `https://pokeapi.co/api/v2/pokemon?limit=1&offset=${
+        Math.floor(Math.random() * 1000) + 1
+      }`,
+    )
+    .then(response => {
+      response.data.results.map((pokemon: Pokemon) => {
+        axios
+          .get(pokemon.url)
+          .then(response => {
+            pokemon.photoUrl = response.data.sprites.front_default;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
+
+      setSpottedPokemon(response.data.results[0]);
+    })
+    .catch(error => {
+      console.log(error);
+    });
