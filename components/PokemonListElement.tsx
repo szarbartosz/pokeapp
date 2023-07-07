@@ -10,8 +10,8 @@ type Props = {
 const PokemonListElement: React.FC<Props> = ({name, photoUrl, onPress}) => {
   return (
     <TouchableHighlight onPress={onPress}>
-      <View style={styles.item}>
-        <Image style={styles.logo} source={{uri: photoUrl}} />
+      <View style={[styles.item, styles.shadow]}>
+        <Image style={styles.image} source={{uri: photoUrl}} />
         <View>
           <Text style={styles.title}>{name}</Text>
         </View>
@@ -22,8 +22,8 @@ const PokemonListElement: React.FC<Props> = ({name, photoUrl, onPress}) => {
 
 const styles = StyleSheet.create({
   item: {
-    borderRadius: 4,
     backgroundColor: '#3B4CCA',
+    borderRadius: 16,
     padding: 16,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -39,9 +39,19 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#FFFFFF',
   },
-  logo: {
+  image: {
     width: 60,
     height: 60,
+  },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 10,
   },
 });
 

@@ -28,19 +28,27 @@ const PokemonDetails: React.FC<Props> = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={{uri: pokemon.photoUrl}} />
-      <Text style={styles.title}>{pokemon.name}</Text>
-      <Text style={styles.subTitle}>Abilities:</Text>
-      <AbilityList abilities={abilities} />
+      <View style={[styles.contentWrapper, styles.shadow]}>
+        <Image style={styles.image} source={{uri: pokemon.photoUrl}} />
+        <Text style={styles.caption}>{pokemon.name}</Text>
+      </View>
+      <View style={[styles.abilitiesWrapper, styles.shadow]}>
+        <Text style={styles.text}>Abilities</Text>
+        <AbilityList abilities={abilities} />
+      </View>
       {isFavourite ? (
-        <View style={styles.infoContainer}>
-          <Text style={styles.title}>That's Your favourite pokemon!</Text>
+        <View style={[styles.buttonContainer, styles.shadow]}>
+          <Button
+            color="#3B4CCA"
+            title="That's Your favourite pokemon!"
+            disabled
+          />
         </View>
       ) : (
-        <View style={styles.buttonContainer}>
+        <View style={[styles.buttonContainer, styles.shadow]}>
           <Button
-            color="#FFFFFF"
-            title="mark as favourite"
+            color="#3B4CCA"
+            title="Mark as favourite"
             onPress={() => {
               storeData(FAVOURITE_POKEMON_KEY, pokemon);
               setIsFavourite(true);
@@ -56,32 +64,61 @@ const PokemonDetails: React.FC<Props> = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  contentWrapper: {
+    margin: 16,
+    backgroundColor: '#3B4CCA',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#3B4CCA',
+    borderRadius: 16,
+    width: '80%',
   },
-  logo: {
+  abilitiesWrapper: {
+    margin: 16,
+    backgroundColor: '#CC0000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 16,
+    width: '80%',
+    paddingBottom: 16,
+  },
+  image: {
     width: 180,
     height: 180,
   },
-  title: {
+  caption: {
     fontSize: 22,
+    margin: 16,
+    textAlign: 'center',
     color: '#FFFFFF',
     marginBottom: 16,
   },
-  subTitle: {
-    fontSize: 16,
+  text: {
+    fontSize: 18,
+    margin: 16,
+    textAlign: 'center',
     color: '#FFFFFF',
-    marginBottom: 8,
   },
   buttonContainer: {
-    marginTop: 120,
-    backgroundColor: '#CC0000',
-    borderRadius: 4,
+    position: 'absolute',
+    bottom: 24,
+    width: '80%',
+    backgroundColor: '#FFFFFF',
+    color: '#3B4CCA',
+    borderRadius: 16,
     padding: 8,
   },
-  infoContainer: {
-    marginTop: 120,
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 10,
   },
 });
 

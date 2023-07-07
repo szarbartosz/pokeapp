@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {BaseSyntheticEvent, useState} from 'react';
-import {Image, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Button, Image, Modal, StyleSheet, Text, View} from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker, Callout} from 'react-native-maps';
 import {Pokemon} from '../App';
@@ -58,13 +58,15 @@ const MapComponent: React.FC = () => {
                   style={styles.photo}
                   source={{uri: currentMarker?.pokemon.photoUrl}}
                 />
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                  }}>
-                  <Text style={styles.textStyle}>Hide modal</Text>
-                </Pressable>
+                <View style={[styles.buttonContainer, styles.shadow]}>
+                  <Button
+                    color="#3B4CCA"
+                    title="Close modal"
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                  />
+                </View>
               </View>
             </View>
           </Modal>
@@ -97,7 +99,8 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    paddingHorizontal: 60,
+    paddingVertical: 20,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -108,18 +111,23 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
+  buttonContainer: {
+    width: 180,
+    backgroundColor: '#FFFFFF',
+    color: '#3B4CCA',
+    borderRadius: 16,
+    padding: 8,
+    marginTop: 16,
   },
-  buttonClose: {
-    backgroundColor: '#3B4CCA',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 10,
   },
 });
 
