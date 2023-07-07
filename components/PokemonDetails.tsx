@@ -1,14 +1,13 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
 import {Button, Image, StyleSheet, Text, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackParamList} from '../App';
 import {
   FAVOURITE_POKEMON_KEY,
-  getData,
   storeData,
 } from '../services/asyncStorageService';
-import {fetchPokemonDetails} from '../services/pokemonService';
+import {usePokemonDetails} from '../hooks/usePokemonDetails';
+import AbilityList from './AbilityList';
 
 export type Ability = {
   ability: {
@@ -18,48 +17,21 @@ export type Ability = {
   details: string;
 };
 
-export type EffectEntry = {
-  effect: string;
-  language: {
-    name: string;
-  };
-};
-
 type Props = NativeStackScreenProps<StackParamList, 'Details'>;
 
 const PokemonDetails: React.FC<Props> = ({route, navigation}) => {
   const {pokemon} = route.params;
-  const [abilities, setAbilities] = useState<Ability[]>([]);
-  const [isFavourite, setIsFavourite] = useState<boolean>(false);
-
-  useEffect(() => {
-    fetchPokemonDetails(pokemon, setAbilities);
-
-    const getFavouritePokemon = async () => {
-      const favouritePokemon = await getData(FAVOURITE_POKEMON_KEY);
-      setIsFavourite(favouritePokemon?.name === pokemon.name);
-    };
-
-    const unsubscribe = navigation.addListener('focus', () => {
-      getFavouritePokemon();
-    });
-
-    return unsubscribe;
-  }, [pokemon, navigation]);
+  const {abilities, isFavourite, setIsFavourite} = usePokemonDetails({
+    pokemon,
+    navigation,
+  });
 
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={{uri: pokemon.photoUrl}} />
       <Text style={styles.title}>{pokemon.name}</Text>
       <Text style={styles.subTitle}>Abilities:</Text>
-      {abilities.length > 0 &&
-        abilities.map((ability: Ability) => (
-          <Text
-            style={styles.listElement}
-            key={pokemon.name + ability.ability.name}>
-            {ability.ability.name}: {ability.details}
-          </Text>
-        ))}
+      <AbilityList abilities={abilities} />
       {isFavourite ? (
         <View style={styles.infoContainer}>
           <Text style={styles.title}>That's Your favourite pokemon!</Text>
@@ -101,11 +73,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
     marginBottom: 8,
-  },
-  listElement: {
-    fontSize: 12,
-    color: '#FFFFFF',
-    margin: 2,
   },
   buttonContainer: {
     marginTop: 120,

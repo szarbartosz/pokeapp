@@ -1,7 +1,16 @@
 import axios from 'axios';
 import {Pokemon} from '../App';
 import {Dispatch, SetStateAction} from 'react';
-import {Ability, EffectEntry} from '../components/PokemonDetails';
+import {Ability} from '../components/PokemonDetails';
+
+type EffectEntry = {
+  effect: string;
+  language: {
+    name: string;
+  };
+};
+
+export const POKEMON_FETCH_LIMIT = 20;
 
 export const fetchPokemons = (
   limit: number,

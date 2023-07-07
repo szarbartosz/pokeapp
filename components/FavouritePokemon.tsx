@@ -1,33 +1,19 @@
 import * as React from 'react';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {Text, StyleSheet, View, Image, Button} from 'react-native';
-import {BottomTabParamList, Pokemon} from '../App';
-import {useEffect, useState} from 'react';
 import {
   FAVOURITE_POKEMON_KEY,
-  getData,
   removeData,
 } from '../services/asyncStorageService';
+import {useFavouritePokemon} from '../hooks/useFavouritePokemon';
+import {BottomTabParamList} from '../App';
 
 type Props = BottomTabScreenProps<BottomTabParamList, 'Favourite'>;
 
 const FavouritePokemon: React.FC<Props> = ({navigation}) => {
-  const [pokemon, setPokemon] = useState<Pokemon>();
-  const [pokemonPresent, setPokemonPresent] = useState<boolean>(false);
-
-  useEffect(() => {
-    const getFavouritePokemon = async () => {
-      const favouritePokemon = await getData(FAVOURITE_POKEMON_KEY);
-      setPokemon(favouritePokemon);
-      setPokemonPresent(favouritePokemon !== null);
-    };
-
-    const unsubscribe = navigation.addListener('focus', () => {
-      getFavouritePokemon();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
+  const {pokemon, pokemonPresent, setPokemonPresent} = useFavouritePokemon({
+    navigation,
+  });
 
   return pokemonPresent ? (
     <View style={styles.container}>
@@ -75,16 +61,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFFFFF',
     marginBottom: 16,
-  },
-  subTitle: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    marginBottom: 8,
-  },
-  listElement: {
-    fontSize: 12,
-    color: '#FFFFFF',
-    margin: 2,
   },
   buttonContainer: {
     marginTop: 120,

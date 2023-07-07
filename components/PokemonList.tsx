@@ -1,21 +1,14 @@
 import * as React from 'react';
-import {useEffect} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {SafeAreaView, FlatList, StyleSheet} from 'react-native';
-import {Pokemon, StackParamList} from '../App';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useFetchPokemons} from '../hooks/useFetchPokemons';
 import PokemonListElement from './PokemonListElement';
-import {fetchMorePokemons, fetchPokemons} from '../services/pokemonService';
+import {StackParamList} from '../App';
 
 type Props = NativeStackScreenProps<StackParamList, 'Overview'>;
 
 const PokemonList: React.FC<Props> = ({navigation}) => {
-  const limit = React.useRef(20);
-  const [offset, setOffset] = React.useState(0);
-  const [pokemons, setPokemons] = React.useState<Pokemon[]>([]);
-
-  useEffect(() => {
-    fetchPokemons(limit.current, setPokemons);
-  }, []);
+  const {pokemons, loadMore} = useFetchPokemons();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,15 +23,7 @@ const PokemonList: React.FC<Props> = ({navigation}) => {
         )}
         keyExtractor={item => item.name}
         onEndReachedThreshold={0.01}
-        onEndReached={() =>
-          fetchMorePokemons(
-            pokemons,
-            limit.current,
-            offset + limit.current,
-            setPokemons,
-            setOffset,
-          )
-        }
+        onEndReached={loadMore}
       />
     </SafeAreaView>
   );
