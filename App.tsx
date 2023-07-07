@@ -6,6 +6,11 @@ import PokemonList from './components/PokemonList';
 import PokemonDetails from './components/PokemonDetails';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MapComponent from './components/Map';
+import {
+  StarIcon,
+  ListBulletIcon,
+  MapIcon,
+} from 'react-native-heroicons/outline';
 
 export type Pokemon = {
   name: string;
@@ -38,7 +43,19 @@ const PokemonStack = () => (
 );
 
 const PokemonTabs = () => (
-  <Tab.Navigator>
+  <Tab.Navigator
+    screenOptions={({route}) => ({
+      tabBarIcon: ({focused}) =>
+        route.name === 'Favourite' ? (
+          <StarIcon color={focused ? '#3B4CCA' : '#949494'} />
+        ) : route.name === 'Pokemons' ? (
+          <ListBulletIcon color={focused ? '#3B4CCA' : '#949494'} />
+        ) : (
+          <MapIcon color={focused ? '#3B4CCA' : '#949494'} />
+        ),
+      tabBarActiveTintColor: '#3B4CCA',
+      tabBarInactiveTintColor: '#949494',
+    })}>
     <Tab.Screen name="Favourite" component={FavouritePokemon} />
     <Tab.Screen name="Pokemons" component={PokemonStack} />
     <Tab.Screen name="Map" component={MapComponent} />
