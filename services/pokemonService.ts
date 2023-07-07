@@ -2,11 +2,23 @@ import axios from 'axios';
 import {Pokemon} from '../App';
 import {Dispatch, SetStateAction} from 'react';
 import {Ability} from '../components/PokemonDetails';
+import {MarkerType} from '../components/Map';
 
 type EffectEntry = {
   effect: string;
   language: {
     name: string;
+  };
+};
+
+export type ClickCords = {
+  coordinate: {
+    latitude: number;
+    longitude: number;
+  };
+  position: {
+    x: number;
+    y: number;
   };
 };
 
@@ -73,8 +85,8 @@ export const fetchPokemonDetails = (
   axios
     .get(pokemon.url)
     .then(response => {
-      const fetchPromise = response.data.abilities.map((ability: Ability) => {
-        return axios
+      const fetchPromise = response.data.abilities.map((ability: Ability) =>
+        axios
           .get(ability.ability.url)
           .then(response => {
             ability.details = response.data.effect_entries.find(
@@ -83,8 +95,8 @@ export const fetchPokemonDetails = (
           })
           .catch(error => {
             console.log(error);
-          });
-      });
+          }),
+      );
 
       Promise.all(fetchPromise)
         .then(() => {
@@ -100,7 +112,9 @@ export const fetchPokemonDetails = (
 };
 
 export const fetchRandomPokemon = (
-  setSpottedPokemon: Dispatch<SetStateAction<Pokemon[]>>,
+  cords: ClickCords,
+  markers: MarkerType[],
+  setMarkers: Dispatch<SetStateAction<MarkerType[]>>,
 ) =>
   axios
     .get(
@@ -109,7 +123,7 @@ export const fetchRandomPokemon = (
       }`,
     )
     .then(response => {
-      response.data.results.map((pokemon: Pokemon) => {
+      const fetchPromise = response.data.results.map((pokemon: Pokemon) => {
         axios
           .get(pokemon.url)
           .then(response => {
@@ -120,7 +134,15 @@ export const fetchRandomPokemon = (
           });
       });
 
-      setSpottedPokemon(response.data.results[0]);
+      Promise.all(fetchPromise).then(() => {
+        setMarkers([
+          ...markers,
+          {
+            ...cords,
+            pokemon: response.data.results[0],
+          } as MarkerType,
+        ]);
+      });
     })
     .catch(error => {
       console.log(error);

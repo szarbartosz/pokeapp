@@ -4,8 +4,9 @@ import {Image, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker, Callout} from 'react-native-maps';
 import {Pokemon} from '../App';
+import {ClickCords, fetchRandomPokemon} from '../services/pokemonService';
 
-type MarkerType = {
+export type MarkerType = {
   coordinate: {
     latitude: number;
     longitude: number;
@@ -19,18 +20,7 @@ const MapComponent: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleLongPress = (e: BaseSyntheticEvent) => {
-    setMarkers([
-      ...markers,
-      {
-        ...e.nativeEvent,
-        pokemon: {
-          name: 'Pikachu',
-          url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
-          photoUrl:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
-        },
-      } as MarkerType,
-    ]);
+    fetchRandomPokemon(e.nativeEvent as ClickCords, markers, setMarkers);
   };
 
   return (
@@ -85,19 +75,13 @@ const MapComponent: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#3B4CCA',
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
   title: {
     fontSize: 22,
     color: '#3B4CCA',
     marginBottom: 16,
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
   },
   photo: {
     width: 180,
@@ -129,20 +113,12 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-    color: 'white',
-  },
   buttonClose: {
     backgroundColor: '#3B4CCA',
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
     textAlign: 'center',
   },
 });
