@@ -1,5 +1,4 @@
-import * as React from 'react';
-import {BaseSyntheticEvent, useState} from 'react';
+import React, {BaseSyntheticEvent, useState} from 'react';
 import {Button, Image, Modal, StyleSheet, Text, View} from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker, Callout} from 'react-native-maps';

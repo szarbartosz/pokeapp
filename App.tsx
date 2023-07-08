@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import FavouritePokemon from './components/FavouritePokemon';
-import PokemonList from './components/PokemonList';
-import PokemonDetails from './components/PokemonDetails';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import PokemonList from './components/PokemonList';
 import MapComponent from './components/Map';
+import PokemonDetails from './components/PokemonDetails';
+import FavouritePokemon from './components/FavouritePokemon';
 import {
   StarIcon,
   ListBulletIcon,
@@ -42,19 +42,22 @@ const PokemonStack = () => (
   </Stack.Navigator>
 );
 
+const COLOR_ACTIVE = '#3B4CCA';
+const COLOR_INACTIVE = '#949494';
+
 const PokemonTabs = () => (
   <Tab.Navigator
     screenOptions={({route}) => ({
       tabBarIcon: ({focused}) =>
         route.name === 'Favourite' ? (
-          <StarIcon color={focused ? '#3B4CCA' : '#949494'} />
+          <StarIcon color={focused ? COLOR_ACTIVE : COLOR_INACTIVE} />
         ) : route.name === 'Pokemons' ? (
-          <ListBulletIcon color={focused ? '#3B4CCA' : '#949494'} />
+          <ListBulletIcon color={focused ? COLOR_ACTIVE : COLOR_INACTIVE} />
         ) : (
-          <MapIcon color={focused ? '#3B4CCA' : '#949494'} />
+          <MapIcon color={focused ? COLOR_ACTIVE : COLOR_INACTIVE} />
         ),
-      tabBarActiveTintColor: '#3B4CCA',
-      tabBarInactiveTintColor: '#949494',
+      tabBarActiveTintColor: COLOR_ACTIVE,
+      tabBarInactiveTintColor: COLOR_INACTIVE,
     })}>
     <Tab.Screen name="Favourite" component={FavouritePokemon} />
     <Tab.Screen name="Pokemons" component={PokemonStack} />

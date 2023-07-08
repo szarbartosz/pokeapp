@@ -1,5 +1,4 @@
-import * as React from 'react';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import {Ability} from './PokemonDetails';
 
