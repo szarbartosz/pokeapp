@@ -1,10 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {Pokemon} from '../App';
-import {
-  POKEMON_FETCH_LIMIT,
-  fetchMorePokemons,
-  fetchPokemons,
-} from '../services/pokemonService';
+import {POKEMON_FETCH_LIMIT, fetchPokemons} from '../services/pokemonService';
 
 export const useFetchPokemons = () => {
   const limit = useRef(POKEMON_FETCH_LIMIT);
@@ -12,7 +8,7 @@ export const useFetchPokemons = () => {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
   const loadMore = () => {
-    fetchMorePokemons(
+    fetchPokemons(
       pokemons,
       limit.current,
       offset + limit.current,
@@ -22,7 +18,7 @@ export const useFetchPokemons = () => {
   };
 
   useEffect(() => {
-    fetchPokemons(limit.current, setPokemons);
+    fetchPokemons([], limit.current, 0, setPokemons, setOffset);
   }, []);
 
   return {pokemons, loadMore};

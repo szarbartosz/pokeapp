@@ -25,31 +25,6 @@ export type ClickCords = {
 export const POKEMON_FETCH_LIMIT = 20;
 
 export const fetchPokemons = (
-  limit: number,
-  setPokemons: Dispatch<SetStateAction<Pokemon[]>>,
-) => {
-  axios
-    .get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`)
-    .then(response => {
-      response.data.results.map((pokemon: Pokemon) => {
-        axios
-          .get(pokemon.url)
-          .then(response => {
-            pokemon.photoUrl = response.data.sprites.front_default;
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      });
-
-      setPokemons(response.data.results);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-};
-
-export const fetchMorePokemons = (
   previousPokemons: Pokemon[],
   limit: number,
   offset: number,
