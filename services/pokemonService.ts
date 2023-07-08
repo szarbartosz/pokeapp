@@ -53,7 +53,7 @@ export const fetchPokemons = (
     });
 };
 
-export const fetchPokemonDetails = (
+export const fetchDetails = (
   pokemon: Pokemon,
   setAbilities: Dispatch<SetStateAction<Ability[]>>,
 ) => {

@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Ability} from '../components/PokemonDetails';
-import {fetchPokemonDetails} from '../services/pokemonService';
+import {fetchDetails} from '../services/pokemonService';
 import {FAVOURITE_POKEMON_KEY, getData} from '../services/asyncStorageService';
 import {Pokemon, StackParamList} from '../App';
 
@@ -10,12 +10,12 @@ type Props = {
   navigation: NativeStackNavigationProp<StackParamList, 'Details'>;
 };
 
-export const usePokemonDetails = ({pokemon, navigation}: Props) => {
+export const useDetails = ({pokemon, navigation}: Props) => {
   const [abilities, setAbilities] = useState<Ability[]>([]);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
 
   useEffect(() => {
-    fetchPokemonDetails(pokemon, setAbilities);
+    fetchDetails(pokemon, setAbilities);
 
     const getFavouritePokemon = async () => {
       const favouritePokemon = await getData(FAVOURITE_POKEMON_KEY);

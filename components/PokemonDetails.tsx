@@ -6,7 +6,7 @@ import {
   FAVOURITE_POKEMON_KEY,
   storeData,
 } from '../services/asyncStorageService';
-import {usePokemonDetails} from '../hooks/usePokemonDetails';
+import {useDetails} from '../hooks/useDetails';
 import AbilityList from './AbilityList';
 
 export type Ability = {
@@ -21,7 +21,7 @@ type Props = NativeStackScreenProps<StackParamList, 'Details'>;
 
 const PokemonDetails: React.FC<Props> = ({route, navigation}) => {
   const {pokemon} = route.params;
-  const {abilities, isFavourite, setIsFavourite} = usePokemonDetails({
+  const {abilities, isFavourite, setIsFavourite} = useDetails({
     pokemon,
     navigation,
   });
